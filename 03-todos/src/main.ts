@@ -17,12 +17,31 @@ interface Todo {
 	completed: boolean;
 }
 
+// Get JSON of Todos from localStorage
+const jsonTodos = localStorage.getItem("todos") ?? "[]";
+
+// Parse JSON into something we can use in JavaScript
+let todos: Todo[] = JSON.parse(jsonTodos);
+
+/**
+ * Save todos to localStorage
+ */
+const saveTodos = () => {
+	// Convert todos-array to JSON
+	const jsonTodos = JSON.stringify(todos);
+
+	// Save JSON to localStorage
+	localStorage.setItem("todos", jsonTodos);
+}
+
+/*
 let todos: Todo[] = [
 	{ id: 1, title: "🤓 Learn about TypeScript", completed: true },
 	{ id: 2, title: "😇 Take over the world", completed: false },
 	{ id: 3, title: "💰 Profit", completed: false },
 	{ id: 4, title: "😈 Be nice", completed: true },
 ];
+*/
 
 /**
  * Render todos to DOM
@@ -84,8 +103,14 @@ newTodoFormEl.addEventListener("submit", (e) => {
 		completed: false,
 	});
 
+	// Save todos 🏊‍♀️🛟
+	saveTodos();
+
 	// Re-render todos
 	renderTodos();
+
+	// Clear input field
+	newTodoTitleEl.value = "";
 
 	console.log("Great success!", todos);
 });
