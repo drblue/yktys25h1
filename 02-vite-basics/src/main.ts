@@ -76,6 +76,10 @@ ages.push(42);
 // }
 // printCoords({ lat: 55.7, lng: 13.23 });
 
+/**
+ * Interface
+ */
+
 interface Position {
 	lat: number;
 	lng: number;
@@ -100,3 +104,80 @@ const myFriendsHome = { lat: 0, long: 0 }
 printCoords(myHome);
 printCoords(myWork);
 // printCoords(myFriendsHome);
+
+/**
+ * Type Aliases
+ */
+
+type Point = {
+	x: number;
+	y: number;
+}
+
+const printPoint = ( { x, y }: Point ) => {
+	console.log(`x = ${x}, y = ${y}`);
+}
+printPoint({ x: 42, y: 1337 });
+
+// Type Aliases can be assigned primitive types
+type Tal = number;
+let x: Tal = 42;
+let y: number = 1337;
+
+const sumNum = (a: number, b: number) => a + b;
+sumNum(x, y);
+
+// Type Aliases can also be a union between two (or more) types
+type StringOrNumber = string | number;
+let s: StringOrNumber = 42;
+s = "forty-two";
+
+const makeMoreInteresting = (msg: StringOrNumber) => {
+	return (typeof msg === "string")
+		? msg.toUpperCase() + "!!!!111"
+		: String(msg) + "!!!!111";
+}
+console.log(makeMoreInteresting("lolcats are funny"));
+console.log(makeMoreInteresting(1337));
+// console.log(makeMoreInteresting(["loldogs"]));
+
+// Inheritance 💰
+interface Animal {
+	name: string;
+}
+
+interface Dog extends Animal {
+	legs: number;
+}
+
+interface Dog extends Animal {
+	wagsTrail: boolean;
+}
+
+const doge: Dog = {
+	name: "Doge",
+	legs: 4,
+	wagsTrail: true,
+}
+
+type AnimalType = {
+	name: string;
+}
+
+type DogType = AnimalType & {
+	legs: number;
+}
+
+// nope! duplicate identifier
+// type DogType = AnimalType & {
+// 	wagsTail: boolean;
+// }
+
+type Todo = {
+	title: string;
+	completed: boolean;
+}
+
+type TodoList = Todo[];
+
+const todos: TodoList = [];
