@@ -1,5 +1,5 @@
-import { createTodo, createTodoFetch, getTodos } from "./services/TodosAPI";
-import type { CreateTodoPayload, Todo } from "./services/TodosAPI.types";
+import { createTodo, getTodos } from "./services/TodosAPI";
+import type { Todo } from "./services/TodosAPI.types";
 import "./assets/scss/app.scss";
 
 /**

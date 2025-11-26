@@ -64,3 +64,20 @@ export const createTodo = async (payload: CreateTodoPayload) => {
 	const response = await axios.post<Todo>(BASE_URL + "/todos", payload);
 	return response.data;
 }
+
+/**
+ * Update a todo in the API
+ *
+ * @param id
+ * @param payload
+ */
+export const updateTodo = async (id, payload) => {
+}
+
+/**
+ * Delete a todo from the API
+ *
+ * @param id
+ */
+export const deleteTodo = async (id) => {
+}
