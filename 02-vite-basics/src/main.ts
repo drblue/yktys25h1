@@ -221,3 +221,51 @@ const makeHttpRequest = (method: HttpVerbs, endpoint: string) => {
 makeHttpRequest("GET", "http://localhost:3000/todos");
 // makeHttpRequest("PSOT", "http://localhost:3000/todos");  // Argument of type '"PSOT"' is not assignable to parameter of type 'HttpVerbs'
 makeHttpRequest("PATCH", "lolcats.gif");
+
+/**
+ * Tuples 🌷
+ */
+
+// type DivisionResult = number[];  // 😤
+type DivisionResult = [number, number];  // 🤩
+
+/**
+ * Divide two numbers with each other
+ *
+ * Return the integer and the remainder.
+ *
+ * @example divide(10, 3) => [3, 1]
+ * @example divide(11, 4) => [2, 3]
+ * @example divide(12, 3) => [4, 0]
+ *
+ */
+const divide = (a: number, b: number): DivisionResult => {
+	const integer = Math.floor(a / b);  // 10 / 3 = 3
+	const remainder = a % b;  // 10 % 3 = 1
+
+	return [integer, remainder];
+}
+
+const [tenByThreeInt, tenByThreeMod/*, tenByThreeMaybe*/] = divide(10, 3);
+
+const divideWithoutTupleThatStillIsSomewhatATuple = (a: number, b: number) => {
+	const integer = Math.floor(a / b);  // 10 / 3 = 3
+	const remainder = a % b;  // 10 % 3 = 1
+
+	return [integer, remainder] as const;
+}
+
+// const res = divideWithoutTupleThatStillIsSomewhatATuple(10, 3);
+
+type TupleDemo = [string, number];
+
+const tuplesRus = () => {
+	let str = "LOL";
+	let num = 1337;
+
+	return [str, num] as const;
+}
+const res = tuplesRus();  // (string | number)[]
+const msg = res[0];  // ~~string | number~~  msg: string
+const num = res[1];  // ~~string | number~~  num: number
+// const lol = res[2];  // ~~string | number~~  // Tuple type 'TupleDemo' of length '2' has no element at index '2'.
