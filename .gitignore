@@ -6,7 +6,7 @@
 .htaccess
 *.code-workspace
 *-nogit
-.env
+# .env
 
 # Local Netlify folder
 .netlify

@@ -4,7 +4,7 @@
 
 import type { Todo } from "./TodosAPI.types";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = import.meta.env.VITE_API_BASEURL;
 
 /**
  * Get todos from API using fetch
