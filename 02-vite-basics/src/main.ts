@@ -181,3 +181,43 @@ type Todo = {
 type TodoList = Todo[];
 
 const todos: TodoList = [];
+
+/**
+ * Literal Types
+ */
+
+const username = "drblue";
+//      ^?
+
+type AllowedGitHubUsernames = "drblue" | "voxpelli";
+
+const fetchGitHubProfile = (username: AllowedGitHubUsernames) => {
+	if (username !== "drblue" && username !== "voxpelli") {
+		throw new Error("Invalid username");
+	}
+
+	// 🐶🦴
+	console.log("Would fetch GitHub profile for user:", username);
+
+	return null;
+}
+
+// fetchGitHubProfile("drblue");
+// fetchGitHubProfile("voxpelli")
+// fetchGitHubProfile("medieinstitutet");  // Argument of type '"medieinstitutet"' is not assignable to parameter of type 'AllowedGitHubUsernames'.
+
+const validHttpVerbs = ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS", "HEAD"];
+type HttpVerbs = "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "OPTIONS" | "HEAD";
+
+const makeHttpRequest = (method: HttpVerbs, endpoint: string) => {
+	if (!validHttpVerbs.includes(method)) {
+		throw new Error(`${method} is not a valid HTTP method`);
+	}
+
+	// 🐶🦴
+	console.log(`Would ${method} from ${endpoint}`);
+}
+
+makeHttpRequest("GET", "http://localhost:3000/todos");
+// makeHttpRequest("PSOT", "http://localhost:3000/todos");  // Argument of type '"PSOT"' is not assignable to parameter of type 'HttpVerbs'
+makeHttpRequest("PATCH", "lolcats.gif");
