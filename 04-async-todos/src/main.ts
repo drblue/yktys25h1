@@ -1,5 +1,5 @@
-import { getTodos } from "./services/TodosAPI";
-import type { Todo } from "./services/TodosAPI.types";
+import { createTodo, createTodoFetch, getTodos } from "./services/TodosAPI";
+import type { CreateTodoPayload, Todo } from "./services/TodosAPI.types";
 import "./assets/scss/app.scss";
 
 /**
@@ -28,7 +28,7 @@ const getTodosAndRender = async () => {
 const renderTodos = () => {
 	todosEl.innerHTML = todos
 		.map(todo => {
-			return `<li class="list-group-item d-flex justify-content-between align-items-center">
+			return `<li class="list-group-item d-flex justify-content-between align-items-center" data-todo-id="${todo.id}">
 				<span class="todo-item">
 					<input type="checkbox" class="me-2" ${todo.completed ? "checked" : ""} />
 					<span class="todo-title">${todo.title}</span>
@@ -45,7 +45,7 @@ const renderTodos = () => {
 /**
  * List for new todo form being submitted
  */
-newTodoFormEl.addEventListener("submit", (e) => {
+newTodoFormEl.addEventListener("submit", async (e) => {
 	e.preventDefault();
 
 	const newTodoTitle = newTodoTitleEl.value.trim();
@@ -56,34 +56,11 @@ newTodoFormEl.addEventListener("submit", (e) => {
 		return;
 	}
 
-	// Find the highest ID among all todos
-	/*
-	let maxId = 0;
-	todos.forEach(todo => {
-		if (todo.id > maxId) {
-			maxId = todo.id;
-		}
-	});
-	*/
-	/*
-	const maxId = todos.reduce((maxId, todo) => {
-		if (todo.id > maxId) {
-			return todo.id;
-		}
-		return maxId;
-	}, 0);
-	*/
-	const maxId = Math.max(0, ...todos.map(todo => todo.id) );
-
-	// PUSH! 🫸🏻
-	todos.push({
-		id: maxId + 1,
+	// Create the todo in the API (and wait for the request to be completed)
+	await createTodo({
 		title: newTodoTitle,
 		completed: false,
 	});
-
-	// Save todos 🏊‍♀️🛟
-	// saveTodos();
 
 	// Re-render todos
 	getTodosAndRender();

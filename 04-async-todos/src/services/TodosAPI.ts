@@ -3,7 +3,7 @@
  */
 
 import axios from "axios";
-import type { Todo } from "./TodosAPI.types";
+import type { CreateTodoPayload, Todo } from "./TodosAPI.types";
 
 const BASE_URL = import.meta.env.VITE_API_BASEURL;
 
@@ -29,5 +29,38 @@ export const getTodosFetch = async () => {
  */
 export const getTodos = async () => {
 	const response = await axios.get<Todo[]>(BASE_URL + "/todos");
+	return response.data;
+}
+
+/**
+ * Create a todo in the API using fetch
+ *
+ * @param payload
+ */
+export const createTodoFetch = async (payload: CreateTodoPayload) => {
+	const res = await fetch(BASE_URL + "/todos", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify(payload),
+	});
+
+	if (!res.ok) {
+		throw new Error("Response for creating new todo was not OK!");
+	}
+
+	const data = await res.json() as Todo;
+
+	return data;
+}
+
+/**
+ * Create a todo in the API using axios 😎
+ *
+ * @param payload
+ */
+export const createTodo = async (payload: CreateTodoPayload) => {
+	const response = await axios.post<Todo>(BASE_URL + "/todos", payload);
 	return response.data;
 }
