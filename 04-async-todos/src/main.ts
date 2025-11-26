@@ -1,4 +1,4 @@
-import { getTodosFetch } from "./services/TodosAPI";
+import { getTodos } from "./services/TodosAPI";
 import type { Todo } from "./services/TodosAPI.types";
 import "./assets/scss/app.scss";
 
@@ -16,7 +16,7 @@ let todos: Todo[] = [];
 // Get todos from API and render them
 const getTodosAndRender = async () => {
 	// Get todos from server and update local copy
-	todos = await getTodosFetch();
+	todos = await getTodos();
 
 	// Render dem todos
 	renderTodos();
