@@ -1,3 +1,5 @@
+import { getTodosFetch } from "./services/TodosAPI";
+import type { Todo } from "./services/TodosAPI.types";
 import "./assets/scss/app.scss";
 
 /**
@@ -8,40 +10,17 @@ const todosEl = document.querySelector<HTMLUListElement>("#todos")!;
 const newTodoFormEl = document.querySelector<HTMLFormElement>("#new-todo-form")!;
 const newTodoTitleEl = document.querySelector<HTMLInputElement>("#new-todo-title")!;
 
-/**
- * Initial state
- */
-interface Todo {
-	id: number;
-	title: string;
-	completed: boolean;
+// Local copy containing all todos from the server
+let todos: Todo[] = [];
+
+// Get todos from API and render them
+const getTodosAndRender = async () => {
+	// Get todos from server and update local copy
+	todos = await getTodosFetch();
+
+	// Render dem todos
+	renderTodos();
 }
-
-// Get JSON of Todos from localStorage
-const jsonTodos = localStorage.getItem("todos") ?? "[]";
-
-// Parse JSON into something we can use in JavaScript
-let todos: Todo[] = JSON.parse(jsonTodos);
-
-/**
- * Save todos to localStorage
- */
-const saveTodos = () => {
-	// Convert todos-array to JSON
-	const jsonTodos = JSON.stringify(todos);
-
-	// Save JSON to localStorage
-	localStorage.setItem("todos", jsonTodos);
-}
-
-/*
-let todos: Todo[] = [
-	{ id: 1, title: "🤓 Learn about TypeScript", completed: true },
-	{ id: 2, title: "😇 Take over the world", completed: false },
-	{ id: 3, title: "💰 Profit", completed: false },
-	{ id: 4, title: "😈 Be nice", completed: true },
-];
-*/
 
 /**
  * Render todos to DOM
@@ -104,10 +83,10 @@ newTodoFormEl.addEventListener("submit", (e) => {
 	});
 
 	// Save todos 🏊‍♀️🛟
-	saveTodos();
+	// saveTodos();
 
 	// Re-render todos
-	renderTodos();
+	getTodosAndRender();
 
 	// Clear input field
 	newTodoTitleEl.value = "";
@@ -115,5 +94,5 @@ newTodoFormEl.addEventListener("submit", (e) => {
 	console.log("Great success!", todos);
 });
 
-// Render initial list of todos
-renderTodos();
+// Get the todos from the API and *then* render initial list of todos
+getTodosAndRender();

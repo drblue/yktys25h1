@@ -27,7 +27,8 @@ Resursen stödjer följande operationer:
 - `GET /todos` - returnerar en lista över alla todos
 - `GET /todos/:id` - returnerar en enskild todo
 - `POST /todos` - skapar en ny todo
-- `PUT /todos/:id` - uppdaterar en todo
+- `PATCH /todos/:id` - uppdaterar en todo
+- `PUT /todos/:id` - skriver över en todo
 - `DELETE /todos/:id` - tar bort en todo
 
 ## Skapa från början
