@@ -15,11 +15,22 @@ let todos: Todo[] = [];
 
 // Get todos from API and render them
 const getTodosAndRender = async () => {
-	// Get todos from server and update local copy
-	todos = await getTodos();
+	try {
+		// Get todos from server and update local copy
+		todos = await getTodos();
 
-	// Render dem todos
-	renderTodos();
+		// Render dem todos
+		renderTodos();
+
+	} catch (err) {
+		if (err instanceof Error) {
+			alert("Something went wrong: " + err.message);
+			console.log(err);
+		} else {
+			alert("Something unexpected happend. Please try not to break stuff.");
+			console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
+		}
+	}
 }
 
 /**
@@ -72,24 +83,46 @@ todosEl.addEventListener("click", async (e) => {
 		}
 		console.log("Found todo-object with that id:", clickedTodo)
 
-		// Toggle todo
-		await updateTodo(clickedTodoId, { completed: !clickedTodo.completed });
+		try {
+			// Toggle todo
+			await updateTodo(clickedTodoId, { completed: !clickedTodo.completed });
 
-		// Get todos from API
-		getTodosAndRender();
+			// Get todos from API
+			getTodosAndRender();
+
+		} catch (err) {
+			if (err instanceof Error) {
+				alert("Something went wrong: " + err.message);
+				console.log(err);
+			} else {
+				alert("Something unexpected happend. Please try not to break stuff.");
+				console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
+			}
+		}
 
 	} else if (target.dataset.action === "delete") {
 		// Delete that todo
 		console.log("Someone wants to delete a todo", e.target);
 
 		const clickedTodoId = Number(target.closest("li")?.dataset.todoId);
-
-		// Delete todo
 		console.log("Would delete todo id:", clickedTodoId);
-		await deleteTodo(clickedTodoId);
 
-		// Get todos from API
-		getTodosAndRender();
+		try {
+			// Delete todo
+			await deleteTodo(clickedTodoId);
+
+			// Get todos from API
+			getTodosAndRender();
+
+		} catch (err) {
+			if (err instanceof Error) {
+				alert("Something went wrong: " + err.message);
+				console.log(err);
+			} else {
+				alert("Something unexpected happend. Please try not to break stuff.");
+				console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
+			}
+		}
 
 	} else if (target.dataset.action === "edit") {
 		console.log("Edit all the things!");
@@ -110,12 +143,23 @@ todosEl.addEventListener("click", async (e) => {
 			return;
 		}
 
-		// Update todo title in the API
-		await updateTodo(clickedTodoId, { title });
+		try {
+			// Update todo title in the API
+			await updateTodo(clickedTodoId, { title });
 
-		// Get todos from API
-		getTodosAndRender();
+			// Get todos from API
+			getTodosAndRender();
 
+		} catch (err) {
+			if (err instanceof Error) {
+				alert("Something went wrong: " + err.message);
+				console.log(err);
+			} else {
+				alert("Something unexpected happend. Please try not to break stuff.");
+				console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
+			}
+
+		}
 	}
 });
 
@@ -135,19 +179,30 @@ newTodoFormEl.addEventListener("submit", async (e) => {
 		return;
 	}
 
-	// Create the todo in the API (and wait for the request to be completed)
-	await createTodo({
-		title: newTodoTitle,
-		completed: false,
-	});
+	try {
+		// Create the todo in the API (and wait for the request to be completed)
+		await createTodo({
+			title: newTodoTitle,
+			completed: false,
+		});
 
-	// Re-render todos
-	getTodosAndRender();
+		// Re-render todos
+		getTodosAndRender();
 
-	// Clear input field
-	newTodoTitleEl.value = "";
+		// Clear input field
+		newTodoTitleEl.value = "";
+		console.log("Great success!", todos);
 
-	console.log("Great success!", todos);
+	} catch (err) {
+		if (err instanceof Error) {
+			alert("Something went wrong: " + err.message);
+			console.log(err);
+		} else {
+			alert("Something unexpected happend. Please try not to break stuff.");
+			console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
+		}
+
+	}
 });
 
 // Get the todos from the API and *then* render initial list of todos
