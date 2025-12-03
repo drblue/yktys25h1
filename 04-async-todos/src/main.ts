@@ -1,6 +1,7 @@
 import { createTodo, deleteTodo, getTodos, updateTodo } from "./services/TodosAPI";
 import type { Todo } from "./services/TodosAPI.types";
 import "./assets/scss/app.scss";
+import { AxiosError } from "axios";
 
 /**
  * DOM references
@@ -13,6 +14,22 @@ const newTodoTitleEl = document.querySelector<HTMLInputElement>("#new-todo-title
 // Local copy containing all todos from the server
 let todos: Todo[] = [];
 
+// Error handler
+const handleError = (err: unknown) => {
+	if (err instanceof AxiosError) {
+		alert("Network error, response code was: " + err.status);
+		console.log("Network Error thrown:", err);
+
+	} else if (err instanceof Error) {
+		alert("Something went wrong: " + err.message);
+		console.log(err);
+
+	} else {
+		alert("Something unexpected happend. Please try not to break stuff.");
+		console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
+	}
+}
+
 // Get todos from API and render them
 const getTodosAndRender = async () => {
 	try {
@@ -23,13 +40,7 @@ const getTodosAndRender = async () => {
 		renderTodos();
 
 	} catch (err) {
-		if (err instanceof Error) {
-			alert("Something went wrong: " + err.message);
-			console.log(err);
-		} else {
-			alert("Something unexpected happend. Please try not to break stuff.");
-			console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
-		}
+		handleError(err);
 	}
 }
 
@@ -91,13 +102,7 @@ todosEl.addEventListener("click", async (e) => {
 			getTodosAndRender();
 
 		} catch (err) {
-			if (err instanceof Error) {
-				alert("Something went wrong: " + err.message);
-				console.log(err);
-			} else {
-				alert("Something unexpected happend. Please try not to break stuff.");
-				console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
-			}
+			handleError(err);
 		}
 
 	} else if (target.dataset.action === "delete") {
@@ -115,13 +120,7 @@ todosEl.addEventListener("click", async (e) => {
 			getTodosAndRender();
 
 		} catch (err) {
-			if (err instanceof Error) {
-				alert("Something went wrong: " + err.message);
-				console.log(err);
-			} else {
-				alert("Something unexpected happend. Please try not to break stuff.");
-				console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
-			}
+			handleError(err);
 		}
 
 	} else if (target.dataset.action === "edit") {
@@ -151,14 +150,7 @@ todosEl.addEventListener("click", async (e) => {
 			getTodosAndRender();
 
 		} catch (err) {
-			if (err instanceof Error) {
-				alert("Something went wrong: " + err.message);
-				console.log(err);
-			} else {
-				alert("Something unexpected happend. Please try not to break stuff.");
-				console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
-			}
-
+			handleError(err);
 		}
 	}
 });
@@ -194,14 +186,7 @@ newTodoFormEl.addEventListener("submit", async (e) => {
 		console.log("Great success!", todos);
 
 	} catch (err) {
-		if (err instanceof Error) {
-			alert("Something went wrong: " + err.message);
-			console.log(err);
-		} else {
-			alert("Something unexpected happend. Please try not to break stuff.");
-			console.log("Someone caused an error that isn't an error but is still an error (somehow?)", err);
-		}
-
+		handleError(err);
 	}
 });
 
