@@ -1,4 +1,4 @@
-import { createTodo, getTodos } from "./services/TodosAPI";
+import { createTodo, deleteTodo, getTodos } from "./services/TodosAPI";
 import type { Todo } from "./services/TodosAPI.types";
 import "./assets/scss/app.scss";
 
@@ -34,13 +34,47 @@ const renderTodos = () => {
 					<span class="todo-title">${todo.title}</span>
 				</span>
 				<span class="todo-actions">
-					<button class="btn btn-warning">Edit</button>
-					<button class="btn btn-danger">Delete</button>
+					<button class="btn btn-warning" data-action="edit">Edit</button>
+					<button class="btn btn-danger" data-action="delete">Delete</button>
 				</span>
 			</li>`;
 		})
 		.join("");
 }
+
+/**
+ * Listen for clicks in the todos list
+ */
+todosEl.addEventListener("click", async (e) => {
+	// console.log("You clicked on:", e.target);
+
+	// Get event target and type it as HTMLElement
+	const target = e.target as HTMLElement;
+
+	if (target.tagName === "INPUT") {
+		// Toggle that todo
+		console.log("They see me toggling...");
+
+	} else if (target.dataset.action === "delete") {
+		// Delete that todo
+		console.log("Someone wants to delete a todo", e.target);
+
+		const clickedTodoId = Number(target.closest("li")?.dataset.todoId);
+
+		// Delete todo
+		console.log("Would delete todo id:", clickedTodoId);
+		await deleteTodo(clickedTodoId);
+
+		// Get todos from API
+		getTodosAndRender();
+
+	} else if (target.dataset.action === "edit") {
+		console.log("Edit all the things!");
+
+	}
+});
+
+
 
 /**
  * List for new todo form being submitted

@@ -79,5 +79,7 @@ export const updateTodo = async (id, payload) => {
  *
  * @param id
  */
-export const deleteTodo = async (id) => {
+export const deleteTodo = async (id: number) => {
+	await axios.delete(BASE_URL + "/todos/" + id);
+	return true;
 }
