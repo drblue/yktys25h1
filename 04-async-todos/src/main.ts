@@ -94,6 +94,28 @@ todosEl.addEventListener("click", async (e) => {
 	} else if (target.dataset.action === "edit") {
 		console.log("Edit all the things!");
 
+		// Find todo id
+		const clickedTodoId = Number(target.closest("li")?.dataset.todoId);
+
+		// Find todo based on the id
+		const clickedTodo = todos.find((todo) => todo.id === clickedTodoId);
+		if (!clickedTodo) {
+			return;
+		}
+
+		// Ask user what the new title should be
+		const title = prompt("What's the new title?", clickedTodo.title);
+		if (!title) {
+			// The user got cold feet 🦶🧊
+			return;
+		}
+
+		// Update todo title in the API
+		await updateTodo(clickedTodoId, { title });
+
+		// Get todos from API
+		getTodosAndRender();
+
 	}
 });
 
