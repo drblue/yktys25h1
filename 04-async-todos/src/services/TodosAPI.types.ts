@@ -16,4 +16,16 @@ export interface CreateTodoPayload {
 }
 */
 
+// 😎
 export type CreateTodoPayload = Omit<Todo, "id">;
+
+/*
+// 🫠
+export interface UpdateTodoPayload {
+	title?: string;
+	completed?: boolean;
+}
+*/
+
+// 🤩
+export type UpdateTodoPayload = Partial<CreateTodoPayload>;

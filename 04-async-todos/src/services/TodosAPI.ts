@@ -3,7 +3,7 @@
  */
 
 import axios from "axios";
-import type { CreateTodoPayload, Todo } from "./TodosAPI.types";
+import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "./TodosAPI.types";
 
 const BASE_URL = import.meta.env.VITE_API_BASEURL;
 
@@ -71,7 +71,9 @@ export const createTodo = async (payload: CreateTodoPayload) => {
  * @param id
  * @param payload
  */
-export const updateTodo = async (id, payload) => {
+export const updateTodo = async (id: number, payload: UpdateTodoPayload) => {
+	const response = await axios.patch<Todo>(BASE_URL + "/todos/" + id, payload);
+	return response.data;
 }
 
 /**
