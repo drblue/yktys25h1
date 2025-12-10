@@ -7,6 +7,15 @@ import type { CreateTodoPayload, Todo, UpdateTodoPayload } from "./TodosAPI.type
 
 const BASE_URL = import.meta.env.VITE_API_BASEURL;
 
+// Create a new axios instance
+const instance = axios.create({
+	baseURL: BASE_URL,
+	headers: {
+		"Accept": "application/json",
+	},
+	timeout: 10000,  // 10 seconds
+});
+
 /**
  * Get todos from API using fetch
  */
@@ -28,7 +37,7 @@ export const getTodosFetch = async () => {
  * Get todos from API using axios 🤘🏻
  */
 export const getTodos = async () => {
-	const response = await axios.get<Todo[]>(BASE_URL + "/todos");
+	const response = await instance.get<Todo[]>("/todos");
 	return response.data;
 }
 
@@ -61,7 +70,7 @@ export const createTodoFetch = async (payload: CreateTodoPayload) => {
  * @param payload
  */
 export const createTodo = async (payload: CreateTodoPayload) => {
-	const response = await axios.post<Todo>(BASE_URL + "/todos", payload);
+	const response = await instance.post<Todo>("/todos", payload);
 	return response.data;
 }
 
@@ -72,7 +81,7 @@ export const createTodo = async (payload: CreateTodoPayload) => {
  * @param payload
  */
 export const updateTodo = async (id: number, payload: UpdateTodoPayload) => {
-	const response = await axios.patch<Todo>(BASE_URL + "/todos/" + id, payload);
+	const response = await instance.patch<Todo>("/todos/" + id, payload);
 	return response.data;
 }
 
@@ -82,6 +91,6 @@ export const updateTodo = async (id: number, payload: UpdateTodoPayload) => {
  * @param id
  */
 export const deleteTodo = async (id: number) => {
-	await axios.delete(BASE_URL + "/todos/" + id);
+	await instance.delete("/todos/" + id);
 	return true;
 }
