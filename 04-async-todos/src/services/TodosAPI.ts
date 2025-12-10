@@ -16,13 +16,24 @@ const instance = axios.create({
 	timeout: 10000,  // 10 seconds
 });
 
-
 /**
  * Make a generic HTTP GET request
  *
+ * @param endpoint Endpoint to get
  */
 export const get = async <T = any>(endpoint: string) => {
 	const response = await instance.get<T>(endpoint);
+	return response.data;
+}
+
+/**
+ * Make a generic HTTP POST request
+ *
+ * @param endpoint Endpoint to POST to
+ * @param data Payload to POST
+ */
+export const post = async <Response, Payload>(endpoint: string, data: Payload) => {
+	const response = await instance.post<Response>(endpoint, data);
 	return response.data;
 }
 
@@ -48,8 +59,7 @@ export const getTodo = async (id: number) => {
  * @param payload
  */
 export const createTodo = async (payload: CreateTodoPayload) => {
-	const response = await instance.post<Todo>("/todos", payload);
-	return response.data;
+	return post<Todo, CreateTodoPayload>("/todos", payload);
 }
 
 /**
