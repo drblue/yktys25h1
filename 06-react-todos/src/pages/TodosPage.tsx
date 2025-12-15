@@ -3,6 +3,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { PacmanLoader } from "react-spinners";
 import * as TodosAPI from "../services/TodosAPI";
 import type { Todo } from "../services/TodosAPI.types";
+import TodoListItem from "../components/TodoListItem";
 
 const TodosPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
@@ -29,12 +30,10 @@ const TodosPage = () => {
 			{todos && (
 				<ListGroup className="todolist">
 					{todos.map(todo => (
-						<ListGroup.Item
-							className={""}
+						<TodoListItem
 							key={todo.id}
-						>
-							{todo.title}
-						</ListGroup.Item>
+							todo={todo}
+						/>
 					))}
 				</ListGroup>
 			)}
