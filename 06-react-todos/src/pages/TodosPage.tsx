@@ -35,7 +35,8 @@ const TodosPage = () => {
 		<>
 			<h1 className="mb-3">Todos</h1>
 
-			<p>Here be form</p>
+			{/* Form should validate that a title is entered and at least 2 chars long, ONLY then should the parent's function for creating the todo be called */}
+			{/* <AddTodoForm onAdd={createTodo} /> */}
 
 			{isLoading &&
 				<div id="loading-spinner-wrapper">
