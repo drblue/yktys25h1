@@ -19,6 +19,7 @@ const TodosPage = () => {
 	}
 
 	const toggleTodo = async (todo: Todo) => {
+		setIsLoading(true);
 		await TodosAPI.updateTodo(todo.id, { completed: !todo.completed });
 
 		// Re-fetch all todos
@@ -36,7 +37,11 @@ const TodosPage = () => {
 
 			<p>Here be form</p>
 
-			{isLoading && <PacmanLoader size={30} color="#f00" speedMultiplier={1.25} />}
+			{isLoading &&
+				<div id="loading-spinner-wrapper">
+					<PacmanLoader size={30} color="#f00" speedMultiplier={1.25} />
+				</div>
+			}
 
 			{todos && (
 				<ListGroup className="todolist">
