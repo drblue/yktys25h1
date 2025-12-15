@@ -1,22 +1,32 @@
 import { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { PacmanLoader } from "react-spinners";
+import TodoListItem from "../components/TodoListItem";
 import * as TodosAPI from "../services/TodosAPI";
 import type { Todo } from "../services/TodosAPI.types";
-import TodoListItem from "../components/TodoListItem";
-import SuccessAlert from "../components/alerts/SuccessAlert";
 
 const TodosPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [todos, setTodos] = useState<Todo[] | null>(null);
 
+	const getTodos = async () => {
+		// reset initial state
+		setIsLoading(true);
+
+		const data = await TodosAPI.getTodos();
+		setIsLoading(false);
+		setTodos(data);
+	}
+
+	const toggleTodo = async (todo: Todo) => {
+		await TodosAPI.updateTodo(todo.id, { completed: !todo.completed });
+
+		// Re-fetch all todos
+		getTodos();
+	}
+
 	// Fetch todos when component is mounted (being rendered for the first time)
 	useEffect(() => {
-		const getTodos = async () => {
-			const data = await TodosAPI.getTodos();
-			setIsLoading(false);
-			setTodos(data);
-		}
 		getTodos();
 	}, []);
 
@@ -26,16 +36,6 @@ const TodosPage = () => {
 
 			<p>Here be form</p>
 
-			<SuccessAlert heading="Great success!">
-				<ul>
-					<li>Such success</li>
-					<li>Much great</li>
-					<li>Very nice</li>
-				</ul>
-			</SuccessAlert>
-
-			<SuccessAlert>React === success</SuccessAlert>
-
 			{isLoading && <PacmanLoader size={30} color="#f00" speedMultiplier={1.25} />}
 
 			{todos && (
@@ -43,6 +43,7 @@ const TodosPage = () => {
 					{todos.map(todo => (
 						<TodoListItem
 							key={todo.id}
+							onToggle={toggleTodo}
 							todo={todo}
 						/>
 					))}
