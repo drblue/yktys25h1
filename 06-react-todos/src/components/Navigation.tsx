@@ -5,7 +5,7 @@ import { NavLink, Link } from "react-router";
 
 const Navigation = () => {
 	return (
-		<Navbar bg="dark" variant="dark" expand="md">
+		<Navbar bg="dark" variant="dark" expand="sm">
 			<Container>
 				<Navbar.Brand as={Link} to="/">
 					📝 React Todos
