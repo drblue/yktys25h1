@@ -10,6 +10,8 @@ const TodosPage = () => {
 	const { data: todos, isLoading } = useQuery({
 		queryKey: ["todos"],
 		queryFn: () => TodosAPI.getTodos(),
+		staleTime: 30 * 1000,  // 30 sec
+		gcTime: 60 * 1000,  // 1 min
 	});
 
 	const createTodo = async (newTodo: CreateTodoPayload) => {
