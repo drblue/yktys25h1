@@ -1,62 +1,44 @@
-import { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { PacmanLoader } from "react-spinners";
 import AddTodoForm from "../components/AddTodoForm";
 import TodoListItem from "../components/TodoListItem";
 import * as TodosAPI from "../services/TodosAPI";
 import type { CreateTodoPayload, Todo } from "../services/TodosAPI.types";
+import { useQuery } from "@tanstack/react-query";
 
 const TodosPage = () => {
-	const [isLoading, setIsLoading] = useState(true);
-	const [todos, setTodos] = useState<Todo[] | null>(null);
+	const { data: todos, isLoading } = useQuery({
+		queryKey: ["todos"],
+		queryFn: () => TodosAPI.getTodos(),
+	});
 
 	const createTodo = async (newTodo: CreateTodoPayload) => {
-		setIsLoading(true);
 		await TodosAPI.createTodo(newTodo);
 
 		// Re-fetch all todos
-		getTodos();
+		// getTodos();
 	}
 
 	const deleteTodo = async (todoId: number) => {
-		setIsLoading(true);
 		await TodosAPI.deleteTodo(todoId);
 
 		// Re-fetch all todos
-		getTodos();
+		// getTodos();
 	}
 
 	const editTodo = async (todoId: number, newTitle: string) => {
-		setIsLoading(true);
 		await TodosAPI.updateTodo(todoId, { title: newTitle });
 
 		// Re-fetch all todos
-		getTodos();
-	}
-
-	const getTodos = async () => {
-		// reset initial state
-		setIsLoading(true);
-
-		const data = await TodosAPI.getTodos();
-		setIsLoading(false);
-		setTodos(data);
+		// getTodos();
 	}
 
 	const toggleTodo = async (todo: Todo) => {
-		setIsLoading(true);
 		await TodosAPI.updateTodo(todo.id, { completed: !todo.completed });
 
 		// Re-fetch all todos
-		getTodos();
+		// getTodos();
 	}
-
-	// Fetch todos when component is mounted (being rendered for the first time)
-	useEffect(() => {
-		(async () => {
-			getTodos();
-		})();
-	}, []);
 
 	return (
 		<>
