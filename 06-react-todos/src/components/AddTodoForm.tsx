@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -10,6 +10,7 @@ interface AddTodoFormProps {
 
 const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
 	const [title, setTitle] = useState("");
+	const titleRef = useRef<HTMLInputElement>(null);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		// Stop form from submitting
@@ -33,6 +34,15 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
 		setTitle("");
 	}
 
+	// Focus on input-field on component mount
+	useEffect(() => {
+		if (!titleRef.current) {
+			return;
+		}
+
+		titleRef.current.focus();
+	}, []);
+
 	return (
 		<Form onSubmit={handleSubmit}>
 			<InputGroup className="mb-3">
@@ -40,6 +50,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
 					aria-label="Enter the title of the new todo"
 					onChange={e => setTitle(e.target.value)}
 					placeholder="Buy milk"
+					ref={titleRef}
 					required
 					value={title}
 				/>
