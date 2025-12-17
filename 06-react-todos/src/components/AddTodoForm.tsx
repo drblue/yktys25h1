@@ -56,6 +56,7 @@ const AddTodoForm: React.FC<AddTodoFormProps> = ({ onAdd }) => {
 				/>
 
 				<Button
+					disabled={title.trim().length < 2}
 					type="submit"
 					variant="success"
 				>
