@@ -1,13 +1,22 @@
 import { useEffect, useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { PacmanLoader } from "react-spinners";
+import AddTodoForm from "../components/AddTodoForm";
 import TodoListItem from "../components/TodoListItem";
 import * as TodosAPI from "../services/TodosAPI";
-import type { Todo } from "../services/TodosAPI.types";
+import type { CreateTodoPayload, Todo } from "../services/TodosAPI.types";
 
 const TodosPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [todos, setTodos] = useState<Todo[] | null>(null);
+
+	const createTodo = async (newTodo: CreateTodoPayload) => {
+		setIsLoading(true);
+		await TodosAPI.createTodo(newTodo);
+
+		// Re-fetch all todos
+		getTodos();
+	}
 
 	const deleteTodo = async (todoId: number) => {
 		setIsLoading(true);
@@ -54,7 +63,7 @@ const TodosPage = () => {
 			<h1 className="mb-3">Todos</h1>
 
 			{/* Form should validate that a title is entered and at least 2 chars long, ONLY then should the parent's function for creating the todo be called */}
-			{/* <AddTodoForm onAdd={createTodo} /> */}
+			<AddTodoForm onAdd={createTodo} />
 
 			{isLoading &&
 				<div id="loading-spinner-wrapper">
