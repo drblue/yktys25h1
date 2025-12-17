@@ -1,5 +1,4 @@
 import ListGroup from "react-bootstrap/ListGroup";
-import { PacmanLoader } from "react-spinners";
 import AddTodoForm from "../components/AddTodoForm";
 import TodoListItem from "../components/TodoListItem";
 import * as TodosAPI from "../services/TodosAPI";
@@ -7,7 +6,7 @@ import type { CreateTodoPayload, Todo } from "../services/TodosAPI.types";
 import { useQuery } from "@tanstack/react-query";
 
 const TodosPage = () => {
-	const { data: todos, isLoading, refetch } = useQuery({
+	const { data: todos, refetch } = useQuery({
 		queryKey: ["todos"],
 		queryFn: () => TodosAPI.getTodos(),
 	});
@@ -46,12 +45,6 @@ const TodosPage = () => {
 
 			{/* Form should validate that a title is entered and at least 2 chars long, ONLY then should the parent's function for creating the todo be called */}
 			<AddTodoForm onAdd={createTodo} />
-
-			{isLoading &&
-				<div id="loading-spinner-wrapper">
-					<PacmanLoader size={30} color="#f00" speedMultiplier={1.25} />
-				</div>
-			}
 
 			{todos && (
 				<ListGroup className="todolist">

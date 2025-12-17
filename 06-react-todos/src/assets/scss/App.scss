@@ -18,6 +18,13 @@ h1, h2, h3, h4, h5, h6 {
 	position: relative;
 }
 
+#global-loading-spinner {
+	position: fixed;
+	top: 4.5rem;
+	right: 4.5rem;
+	z-index: 1;
+}
+
 #loading-spinner-wrapper {
 	position: absolute;
 	top: 2rem;

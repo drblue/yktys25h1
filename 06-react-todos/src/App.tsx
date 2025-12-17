@@ -1,6 +1,7 @@
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Container from "react-bootstrap/Container";
 import { Routes, Route } from "react-router";
+import GlobalLoadingSpinner from "./components/spinners/GlobalLoadingSpinner";
 import Navigation from "./components/Navigation";
 import useTheme from "./hooks/useTheme";
 import HomePage from "./pages/HomePage";
@@ -14,6 +15,7 @@ function App() {
 	return (
 		<div id="App" className={isDarkMode ? "bg-dark text-white" : ""}>
 			<Navigation />
+			<GlobalLoadingSpinner />
 
 			<Container className="py-3">
 				<Routes>
