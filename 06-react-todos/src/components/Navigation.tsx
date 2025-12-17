@@ -1,11 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
+import Badge from "react-bootstrap/Badge";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { NavLink, Link } from "react-router";
 import useTheme from "../hooks/useTheme";
+import { getTodos } from "../services/TodosAPI";
 
 const Navigation = () => {
+	const { data: todos, isSuccess } = useQuery({
+		queryKey: ["todos"],
+		queryFn: getTodos,
+	});
 	const { isDarkMode, toggleTheme } = useTheme();
 
 	return (
@@ -20,6 +27,8 @@ const Navigation = () => {
 					<Nav className="ms-auto">
 						<Nav.Link as={NavLink} end to="/todos">
 							Todos
+							{" "}
+							{isSuccess && <Badge bg="primary">{todos.length}</Badge>}
 						</Nav.Link>
 					</Nav>
 				</Navbar.Collapse>

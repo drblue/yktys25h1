@@ -19,6 +19,21 @@
       "title": "Do all the todos",
       "completed": true,
       "id": 4
+    },
+    {
+      "title": "I ❤️ TanStack Query",
+      "completed": false,
+      "id": 5
+    },
+    {
+      "title": "TanStack is the 🐐!",
+      "completed": false,
+      "id": 6
+    },
+    {
+      "title": "OMG OMG OMG SOO COOOL!!!!!!!!!1111",
+      "completed": false,
+      "id": 7
     }
   ]
 }
