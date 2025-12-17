@@ -28,7 +28,9 @@ const TodosPage = () => {
 
 	// Fetch todos when component is mounted (being rendered for the first time)
 	useEffect(() => {
-		getTodos();
+		(async () => {
+			getTodos();
+		})();
 	}, []);
 
 	return (
