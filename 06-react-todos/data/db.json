@@ -7,7 +7,7 @@
     },
     {
       "title": "Learn Advanced TypeScript in React",
-      "completed": false,
+      "completed": true,
       "id": 2
     },
     {
@@ -17,7 +17,7 @@
     },
     {
       "title": "Do all the todos",
-      "completed": false,
+      "completed": true,
       "id": 4
     }
   ]

@@ -7,39 +7,37 @@ import type { CreateTodoPayload, Todo } from "../services/TodosAPI.types";
 import { useQuery } from "@tanstack/react-query";
 
 const TodosPage = () => {
-	const { data: todos, isLoading } = useQuery({
+	const { data: todos, isLoading, refetch } = useQuery({
 		queryKey: ["todos"],
 		queryFn: () => TodosAPI.getTodos(),
-		staleTime: 30 * 1000,  // 30 sec
-		gcTime: 60 * 1000,  // 1 min
 	});
 
 	const createTodo = async (newTodo: CreateTodoPayload) => {
 		await TodosAPI.createTodo(newTodo);
 
 		// Re-fetch all todos
-		// getTodos();
+		refetch();
 	}
 
 	const deleteTodo = async (todoId: number) => {
 		await TodosAPI.deleteTodo(todoId);
 
 		// Re-fetch all todos
-		// getTodos();
+		refetch();
 	}
 
 	const editTodo = async (todoId: number, newTitle: string) => {
 		await TodosAPI.updateTodo(todoId, { title: newTitle });
 
 		// Re-fetch all todos
-		// getTodos();
+		refetch();
 	}
 
 	const toggleTodo = async (todo: Todo) => {
 		await TodosAPI.updateTodo(todo.id, { completed: !todo.completed });
 
 		// Re-fetch all todos
-		// getTodos();
+		refetch();
 	}
 
 	return (
