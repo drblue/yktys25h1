@@ -9,6 +9,22 @@ const TodosPage = () => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [todos, setTodos] = useState<Todo[] | null>(null);
 
+	const deleteTodo = async (todoId: number) => {
+		setIsLoading(true);
+		await TodosAPI.deleteTodo(todoId);
+
+		// Re-fetch all todos
+		getTodos();
+	}
+
+	const editTodo = async (todoId: number, newTitle: string) => {
+		setIsLoading(true);
+		await TodosAPI.updateTodo(todoId, { title: newTitle });
+
+		// Re-fetch all todos
+		getTodos();
+	}
+
 	const getTodos = async () => {
 		// reset initial state
 		setIsLoading(true);
@@ -51,6 +67,8 @@ const TodosPage = () => {
 					{todos.map(todo => (
 						<TodoListItem
 							key={todo.id}
+							onDelete={deleteTodo}
+							onEdit={editTodo}
 							onToggle={toggleTodo}
 							todo={todo}
 						/>
