@@ -2,29 +2,18 @@
  * Root Router
  */
 import express from "express";
+import { getLuke, getRoot, postTodos } from "../controllers/index.ts";
 
 // Create a new Express Router
 const router = express.Router();
 
 // Respond to `GET /` requests
-router.get("/", (_req, res) => {
-	console.log("Someone requested my (g)root 🎄");
-	// console.log("Method:", req.method);
-	// console.log("Path:", req.path);
-	// console.log("Client IP:", req.ip);
-	res.json({ message: "I AM (G)ROOT 🎄!" });
-});
+router.get("/", getRoot);
 
 // Respond to `GET /luke` requests
-router.get("/luke", (_req, res) => {
-	res.send({ message: "I AM YOUR FATHER" });
-});
+router.get("/luke", getLuke);
 
 // Respond to `POST /todos` requests
-router.post("/todos", (req, res) => {
-	console.log("request body", req.body);
-
-	res.send({ message: "Would have created todo if I knew how to" });
-});
+router.post("/todos", postTodos);
 
 export default router;
