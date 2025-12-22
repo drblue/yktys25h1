@@ -41,3 +41,15 @@ Create `tsconfig.json` with the following content:
   "exclude": ["node_modules"]
 }
 ```
+
+## Add `scripts` to `package.json`
+
+Replace the `"scripts"`-section in `package.json` with the following:
+
+```json
+  "scripts": {
+    "check": "tsc --noEmit",
+    "dev": "tsx --watch src/index.ts",
+    "start": "tsx src/index.ts"
+  },
+```
