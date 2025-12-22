@@ -1,4 +1,5 @@
 import express from "express";
+import routes from "./routes/index.ts";
 
 // Constants
 const PORT = 3000;
@@ -9,26 +10,8 @@ const app = express();
 // Register middlewares
 app.use(express.json());
 
-// Respond to `GET /` requests
-app.get("/", (_req, res) => {
-	console.log("Someone requested my (g)root 🎄");
-	// console.log("Method:", req.method);
-	// console.log("Path:", req.path);
-	// console.log("Client IP:", req.ip);
-	res.json({ message: "I AM (G)ROOT 🎄!" });
-});
-
-// Respond to `GET /luke` requests
-app.get("/luke", (_req, res) => {
-	res.send({ message: "I AM YOUR FATHER" });
-});
-
-// Respond to `POST /todos` requests
-app.post("/todos", (req, res) => {
-	console.log("request body", req.body);
-
-	res.send({ message: "Would have created todo if I knew how to" });
-});
+// Use root router
+app.use(routes);
 
 // Respond to ALL other requests (catch-all)
 app.use((req, res) => {
